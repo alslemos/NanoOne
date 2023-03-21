@@ -31,6 +31,19 @@ struct Player{
     
 }
 
+//parte da Raquel
+//função que escolhe o que cada personagem vai ser
+func escolhe(playersvector: [Player]) -> Int {
+    var amountPlayers: Int = 0
+    
+    for _ in playersvector{
+    amountPlayers += 1
+    }
+    var choice: Int = Int.random(in: 0..<amountPlayers)
+    print(choice)
+    return choice
+}
+
 
 // funcao geral que visa ser o main
 func Carrega() -> Int{
@@ -73,7 +86,23 @@ func Carrega() -> Int{
         
         
     }
+    //parte de testes da raquel
+    for _ in 0...enemies{
+        var villainIndex: Int = escolhe(playersvector: playersVector)
+        playersVector[villainIndex].player = .enemye
+
+    }
+    
+    //teste para ver se funcionou
+    var j: Int = 0
+    for _ in playersVector{
+        print(playersVector[j].player)
+        j += 1
+    }
+    
     return 5
+    
+    
 }
 
 var b = Carrega() // chamando o que seria a nossa função main
