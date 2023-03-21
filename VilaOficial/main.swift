@@ -107,3 +107,34 @@ func Carrega() -> Int{
 
 var b = Carrega() // chamando o que seria a nossa função main
 //playersVector[i] = Player(nome: readLine() ?? "Empty", rand: auxRand, player: .farmer) // muito manual
+
+func dia(_ playersVector: inout [Player]) -> [Player]{
+    print("UHHHHHH GRAÇAS AO BOM GOD O DIA CHEGOU")
+    print("Now, the players will vote to eliminate a player:")
+    print("Which player received the most votes to be eliminated?")
+    
+    guard let eliminatedPlayer = Int(readLine() ?? "0")  else {  // unwrapping
+        print("Invalid Character")
+        return playersVector
+    }
+    
+    print("The player \(playersVector[eliminatedPlayer - 1].nome) has been eliminated of the game!!")
+    playersVector.remove(at: eliminatedPlayer - 1)//Como limpar a posição do vetor
+    return playersVector
+}
+
+func noite(_ playersVector: inout [Player]) -> [Player]{
+    print("UHHHHHH A NOITE CHEGOU, CORRAAAAAAA!")
+    print("Now, the wolves will choose who they kill:")
+    print("Which play did the wolves decide to kill?")
+
+    guard let eliminatedPlayer = Int(readLine() ?? "0")  else {  // unwrapping
+        print("Invalid Character")
+        return playersVector
+    }
+
+    print("The player \(playersVector[eliminatedPlayer - 1].nome) has been eliminated of the game!!")
+    playersVector.remove(at: eliminatedPlayer - 1) //Como limpar a posição do vetor
+    return playersVector
+}
+
