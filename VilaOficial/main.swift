@@ -1,4 +1,5 @@
 import Foundation
+import AVFoundation
 
 
 var players: Int = 0
@@ -36,11 +37,13 @@ struct Player{
 //função que escolhe o que cada personagem vai ser
 func escolhe(playersvector: [Player]) -> Int {
     var amountPlayers: Int = 0
-    
+    var choice: Int = 0
     for _ in playersvector{
     amountPlayers += 1
     }
-    var choice: Int = Int.random(in: 0..<amountPlayers)
+    repeat {
+       choice = Int.random(in: 0..<amountPlayers)
+    }while playersvector[choice].player == .enemye
     print(choice)
     return choice
 }
@@ -75,10 +78,12 @@ func escolhe(playersvector: [Player]) -> Int {
 
 // funcao geral que visa ser o main
 func Carrega() -> Int{
+    print("🐺🌕🐺🌕  Vila  🐺🌕🐺🌕 \n\n\n")
+    
     print("Tell us the name of the host, please:")
     
     if let masterName = readLine() {
-        print("Hello, \(masterName), you will be the master. How many players will we have for this campaign?")
+        print("\n Hello, \(masterName), you will be the master. How many players will we have for this campaign?")
     }
     
     guard let players = Int(readLine() ?? "0")  else {  // unwrapping
@@ -162,4 +167,3 @@ func noite(_ playersVector: inout [Player]) -> [Player]{
     playersVector.remove(at: eliminatedPlayer - 1) //Como limpar a posição do vetor
     return playersVector
 }
-
