@@ -5,6 +5,7 @@ import AVFoundation
 var players: Int = 0
 var enemies: Int = 0
 var i: Int = 0
+var player: AVAudioPlayer?
 var playersVector: [Player] = [] // Criando vetor para inserir todos os players
 
 enum PlayerDescription{
@@ -124,22 +125,27 @@ func Carrega() -> Int{
     }
     
     //teste para ver se funcionou
-    var j: Int = 0
-    for _ in playersVector{
-        print(playersVector[j].player)
-        j += 1
-    }
+//    var j: Int = 0
+//    for _ in playersVector{
+//        print(playersVector[j].player)
+//        j += 1
+//    }
+    showPlayers(playersVector)
     
     //MARK: - contagem de quantas pessoas e quantos lobos
     //a condição preisa refletir a qnt de jogadores e de lobos
-    repeat{  // logica ainda nao esta coerente, mas coisa para amanhã
-        noite(&playersVector)
-        showPlayers(playersVector)
-        dia(&playersVector)
-        showPlayers(playersVector)
-        
-    }while contplayers(playersVector)
-    
+//    repeat{  // logica ainda nao esta coerente, mas coisa para amanhã
+//        noite(&playersVector)
+//        showPlayers(playersVector)
+//        dia(&playersVector)
+//        showPlayers(playersVector)
+//
+//    }while contplayers(playersVector)
+    while noite(&playersVector) && dia(&playersVector){
+        print("OUTRO TURNO")
+    }
+    print("O JOGO ACABOU")
+    showWinner(playersVector)
     return 5
     
 }
@@ -147,39 +153,64 @@ func Carrega() -> Int{
 // chamando o que seria a nossa função main
 //playersVector[i] = Player(nome: readLine() ?? "Empty", rand: auxRand, player: .farmer) // muito manual
 
-func dia(_ playersVector: inout [Player])// -> [Player]
+func dia(_ playersVector: inout [Player]) -> Bool
 {
+    guard let url = Bundle.main.url(forResource: "inspiring-cinematic-ambient-116199", withExtension: "mp3") else { return true } //tirei o return daqui de dentro
+           do {
+               player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+               guard let player = player else { return false } //tirei o return daqui de dentro
+               player.play()
+           } catch let error {
+               print(error.localizedDescription)
+           }
+    
     print("UHHHHHH GRAÇAS AO BOM GOD O DIA CHEGOU")
     print("Now, the players will vote to eliminate a player:")
     print("Which player received the most votes to be eliminated?")
     
     guard let eliminatedPlayer = Int(readLine() ?? "0")  else {  // unwrapping
         print("Invalid Character")
-        return //playersVector
+        return false//playersVector
     }
     
     print("The player \(playersVector[eliminatedPlayer - 1].nome) has been eliminated of the game!!")
     playersVector.remove(at: eliminatedPlayer - 1)//Como limpar a posição do vetor
+    showPlayers(playersVector)
+    //return real oficial
+    return verifyGame(playersVector)
     //return playersVector
 }
 
-func noite(_ playersVector: inout [Player]) //-> [Player]
+func noite(_ playersVector: inout [Player]) -> Bool
 {
+    //  Musica da noite
+           guard let url = Bundle.main.url(forResource: "risk-136788", withExtension: "mp3") else { return true} //tirei o return daqui de dentro
+           do {
+               player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+               guard let player = player else { return false } //tirei o return daqui de dentro
+               player.play()
+           } catch let error {
+               print(error.localizedDescription)
+           }
+    
+    
     print("UHHHHHH A NOITE CHEGOU, CORRAAAAAAA!")
     print("Now, the wolves will choose who they kill:")
     print("Which player did the wolves decide to kill?")
 
     guard let eliminatedPlayer = Int(readLine() ?? "0")  else {  // unwrapping
         print("Invalid Character")
-        return //playersVector
+        return false//playersVector
     }
 
     print("The player \(playersVector[eliminatedPlayer - 1].nome) has been eliminated of the game!!")
     playersVector.remove(at: eliminatedPlayer - 1) //Como limpar a posição do vetor
+    showPlayers(playersVector)
+    return verifyGame(playersVector)
     //return playersVector
 }
 
-func contplayers(_ playersvector: [Player]) -> Bool{
+func verifyGame(_ playersvector: [Player]) -> Bool{
     var qntwolf: Int = 0
     var qntfarmer: Int = 0
     for player in playersvector {
@@ -197,6 +228,15 @@ func contplayers(_ playersvector: [Player]) -> Bool{
         return true
     }
     
+}
+
+func showWinner(_ playersvector: [Player]){
+    if playersvector[0].player == .enemye{
+        print("WEREWOLF WON WAUAHAHAHAHAHA 🐺🐺🐺🐺")
+    }
+    else {
+        print("FARMERS WON YAAAAYYYYY 👩‍🌾👩‍🌾👩‍🌾👩‍🌾")
+    }
 }
 
 Intro()
