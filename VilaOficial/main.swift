@@ -4,6 +4,7 @@ import Foundation
 var players: Int = 0
 var enemies: Int = 0
 var i: Int = 0
+var playersVector: [Player] = [] // Criando vetor para inserir todos os players
 
 enum PlayerDescription{
     case enemye
@@ -44,6 +45,33 @@ func escolhe(playersvector: [Player]) -> Int {
     return choice
 }
 
+//func Intro(){
+//
+//    let _: String =  """
+//  🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾
+// VVVVVVVV           VVVVVVVV  iiii  lllllll
+// V::::::V           V::::::V i::::i l:::::l
+// V::::::V           V::::::V  iiii  l:::::l
+// V::::::V           V::::::V        l:::::l
+//  V:::::V           V:::::V iiiiiii  l::::l   aaaaaaaaaaaaa
+//   V:::::V         V:::::V  i:::::i  l::::l   a::::::::::::a
+//    V:::::V       V:::::V    i::::i  l::::l   aaaaaaaaa:::::a
+//     V:::::V     V:::::V     i::::i  l::::l            a::::a
+//      V:::::V   V:::::V      i::::i  l::::l     aaaaaaa:::::a
+//       V:::::V V:::::V       i::::i  l::::l   aa::::::::::::a
+//        V:::::V:::::V        i::::i  l::::l  a::::aaaa::::::a
+//         V:::::::::V         i::::i  l::::l a::::a    a:::::a
+//          V:::::::V         i::::::il::::::la::::a    a:::::a
+//           V:::::V          i::::::il::::::la:::::aaaa::::::a
+//            V:::V           i::::::il::::::l a::::::::::aa:::a
+//             VVV            iiiiiiiillllllll  aaaaaaaaaa  aaaa
+//
+//  🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾
+//"""
+//    var b = Carrega()
+//}
+
+
 
 // funcao geral que visa ser o main
 func Carrega() -> Int{
@@ -59,32 +87,24 @@ func Carrega() -> Int{
     }
     print("We will have \(players) then, thank you")
     
-    
+    print("How many enemies will we have for this campaign?")
     guard let enemies = Int(readLine() ?? "0")  else {  // unwrapping
         print("nao rolou inimigo")
         return 0
     }
     print("We will have \(enemies) then, thank you")
-    
-    
-    // Criando vetor para inserir todos os players
-    var playersVector: [Player] = [] // pq esse underline?
-    
-    print(players)
-    
+        
     for i in 1...players{
         
         var auxRand = Float.random(in: 1..<100) // pq esse underline?
-        print(auxRand)
+        // print(auxRand)  Já sabemos que funciona
         
         print("Player \(i) name: ") // coerente
         
         var a: Player = Player(nome: readLine() ?? "Empty", rand: auxRand, player: .farmer) // mui
         
         playersVector.append(a)
-        // nao vai funcionar
-        
-        
+
     }
     //parte de testes da raquel
     for _ in 0...enemies{
@@ -100,8 +120,13 @@ func Carrega() -> Int{
         j += 1
     }
     
-    return 5
     
+    while playersVector.count > 2{  // logica ainda nao esta coerente, mas coisa para amanhã
+        noite(&playersVector)
+        dia(&playersVector)
+    }
+    
+    return 5
     
 }
 
