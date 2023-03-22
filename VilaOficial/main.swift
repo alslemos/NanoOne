@@ -17,9 +17,9 @@ enum PlayerDescription{
     var description: String{
         switch self {
         case .enemye:
-            return "🐺🌕🐺🌕🐺"
+            return "🐺"
         case .farmer:
-            return "👩‍🌾🥕👩‍🌾🥕"
+            return "👩‍🌾"
         default:
             print("Opa!")
         }
@@ -48,42 +48,47 @@ func escolhe(playersvector: [Player]) -> Int {
     return choice
 }
 
-//func Intro(){
-//
-//    let _: String =  """
-//  🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾
-// VVVVVVVV           VVVVVVVV  iiii  lllllll
-// V::::::V           V::::::V i::::i l:::::l
-// V::::::V           V::::::V  iiii  l:::::l
-// V::::::V           V::::::V        l:::::l
-//  V:::::V           V:::::V iiiiiii  l::::l   aaaaaaaaaaaaa
-//   V:::::V         V:::::V  i:::::i  l::::l   a::::::::::::a
-//    V:::::V       V:::::V    i::::i  l::::l   aaaaaaaaa:::::a
-//     V:::::V     V:::::V     i::::i  l::::l            a::::a
-//      V:::::V   V:::::V      i::::i  l::::l     aaaaaaa:::::a
-//       V:::::V V:::::V       i::::i  l::::l   aa::::::::::::a
-//        V:::::V:::::V        i::::i  l::::l  a::::aaaa::::::a
-//         V:::::::::V         i::::i  l::::l a::::a    a:::::a
-//          V:::::::V         i::::::il::::::la::::a    a:::::a
-//           V:::::V          i::::::il::::::la:::::aaaa::::::a
-//            V:::V           i::::::il::::::l a::::::::::aa:::a
-//             VVV            iiiiiiiillllllll  aaaaaaaaaa  aaaa
-//
-//  🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾
-//"""
-//    var b = Carrega()
-//}
+func Intro(){
+
+    let a: String =  """
+  🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾
+ VVVVVVVV           VVVVVVVV  iiii  lllllll
+ V::::::V           V::::::V i::::i l:::::l
+ V::::::V           V::::::V  iiii  l:::::l
+ V::::::V           V::::::V        l:::::l
+  V:::::V           V:::::V iiiiiii  l::::l   aaaaaaaaaaaaa
+   V:::::V         V:::::V  i:::::i  l::::l   a::::::::::::a
+    V:::::V       V:::::V    i::::i  l::::l   aaaaaaaaa:::::a
+     V:::::V     V:::::V     i::::i  l::::l            a::::a
+      V:::::V   V:::::V      i::::i  l::::l     aaaaaaa:::::a
+       V:::::V V:::::V       i::::i  l::::l   aa::::::::::::a
+        V:::::V:::::V        i::::i  l::::l  a::::aaaa::::::a
+         V:::::::::V         i::::i  l::::l a::::a    a:::::a
+          V:::::::V         i::::::il::::::la::::a    a:::::a
+           V:::::V          i::::::il::::::la:::::aaaa::::::a
+            V:::V           i::::::il::::::l a::::::::::aa:::a
+             VVV            iiiiiiiillllllll  aaaaaaaaaa  aaaa
+
+  🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾🐺👩‍🌾
+"""
+    print(a)
+    Carrega()
+}
 
 
+func showPlayers(_ playersvector: [Player]){
+    for index in 0..<playersvector.count{
+        print("Number: \(index + 1)\tName: \(playersvector[index].nome)\tFunction: \(playersvector[index].player?.description ?? "")")
+    
+    }
+}
 
 // funcao geral que visa ser o main
 func Carrega() -> Int{
-    print("🐺🌕🐺🌕  Vila  🐺🌕🐺🌕 \n\n\n")
-    
     print("Tell us the name of the host, please:")
     
     if let masterName = readLine() {
-        print("\n Hello, \(masterName), you will be the master. How many players will we have for this campaign?")
+        print("\nHello, \(masterName), you will be the master. How many players will we have for this campaign?")
     }
     
     guard let players = Int(readLine() ?? "0")  else {  // unwrapping
@@ -112,7 +117,7 @@ func Carrega() -> Int{
 
     }
     //parte de testes da raquel
-    for _ in 0...enemies{
+    for _ in 1...enemies{
         var villainIndex: Int = escolhe(playersvector: playersVector)
         playersVector[villainIndex].player = .enemye
 
@@ -125,45 +130,73 @@ func Carrega() -> Int{
         j += 1
     }
     
-    
-    while playersVector.count > 2{  // logica ainda nao esta coerente, mas coisa para amanhã
+    //MARK: - contagem de quantas pessoas e quantos lobos
+    //a condição preisa refletir a qnt de jogadores e de lobos
+    repeat{  // logica ainda nao esta coerente, mas coisa para amanhã
         noite(&playersVector)
+        showPlayers(playersVector)
         dia(&playersVector)
-    }
+        showPlayers(playersVector)
+        
+    }while contplayers(playersVector)
     
     return 5
     
 }
 
-var b = Carrega() // chamando o que seria a nossa função main
+// chamando o que seria a nossa função main
 //playersVector[i] = Player(nome: readLine() ?? "Empty", rand: auxRand, player: .farmer) // muito manual
 
-func dia(_ playersVector: inout [Player]) -> [Player]{
+func dia(_ playersVector: inout [Player])// -> [Player]
+{
     print("UHHHHHH GRAÇAS AO BOM GOD O DIA CHEGOU")
     print("Now, the players will vote to eliminate a player:")
     print("Which player received the most votes to be eliminated?")
     
     guard let eliminatedPlayer = Int(readLine() ?? "0")  else {  // unwrapping
         print("Invalid Character")
-        return playersVector
+        return //playersVector
     }
     
     print("The player \(playersVector[eliminatedPlayer - 1].nome) has been eliminated of the game!!")
     playersVector.remove(at: eliminatedPlayer - 1)//Como limpar a posição do vetor
-    return playersVector
+    //return playersVector
 }
 
-func noite(_ playersVector: inout [Player]) -> [Player]{
+func noite(_ playersVector: inout [Player]) //-> [Player]
+{
     print("UHHHHHH A NOITE CHEGOU, CORRAAAAAAA!")
     print("Now, the wolves will choose who they kill:")
-    print("Which play did the wolves decide to kill?")
+    print("Which player did the wolves decide to kill?")
 
     guard let eliminatedPlayer = Int(readLine() ?? "0")  else {  // unwrapping
         print("Invalid Character")
-        return playersVector
+        return //playersVector
     }
 
     print("The player \(playersVector[eliminatedPlayer - 1].nome) has been eliminated of the game!!")
     playersVector.remove(at: eliminatedPlayer - 1) //Como limpar a posição do vetor
-    return playersVector
+    //return playersVector
 }
+
+func contplayers(_ playersvector: [Player]) -> Bool{
+    var qntwolf: Int = 0
+    var qntfarmer: Int = 0
+    for player in playersvector {
+        if player.player == .farmer{
+            qntfarmer += 1
+        }
+        else if player.player == .enemye{
+            qntwolf += 1
+        }
+    }
+    if qntwolf == 0 || qntfarmer == 0 {
+        return false
+    }
+    else {
+        return true
+    }
+    
+}
+
+Intro()
