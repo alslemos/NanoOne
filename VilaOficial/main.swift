@@ -163,7 +163,7 @@ func dia(_ playersVector: inout [Player]) -> Bool
            } catch let error {
                print(error.localizedDescription)
            }
-    var b = readLine()// nao mata a musica
+    //var b = readLine()// nao mata a musica
     
     print("UHHHHHH GRAÇAS AO BOM GOD O DIA CHEGOU")
     print("Now, the players will vote to eliminate a player:")
@@ -178,7 +178,8 @@ func dia(_ playersVector: inout [Player]) -> Bool
     playersVector.remove(at: eliminatedPlayer - 1)//Como limpar a posição do vetor
     showPlayers(playersVector)
     //return real oficial
-    var c = readLine()
+    //    var a = readLine()
+    Thread.sleep(forTimeInterval: 1)
     return verifyGame(playersVector)
     //return playersVector
 }
@@ -210,7 +211,8 @@ func noite(_ playersVector: inout [Player]) -> Bool
     playersVector.remove(at: eliminatedPlayer - 1) //Como limpar a posição do vetor
     showPlayers(playersVector)
     
-    var a = readLine()
+//    var a = readLine()
+    Thread.sleep(forTimeInterval: 1)
     return verifyGame(playersVector)
     
     //return playersVector
