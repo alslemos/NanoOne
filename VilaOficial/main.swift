@@ -163,6 +163,7 @@ func dia(_ playersVector: inout [Player]) -> Bool
            } catch let error {
                print(error.localizedDescription)
            }
+    var b = readLine()// nao mata a musica
     
     print("UHHHHHH GRAÇAS AO BOM GOD O DIA CHEGOU")
     print("Now, the players will vote to eliminate a player:")
@@ -177,6 +178,7 @@ func dia(_ playersVector: inout [Player]) -> Bool
     playersVector.remove(at: eliminatedPlayer - 1)//Como limpar a posição do vetor
     showPlayers(playersVector)
     //return real oficial
+    var c = readLine()
     return verifyGame(playersVector)
     //return playersVector
 }
@@ -189,6 +191,7 @@ func noite(_ playersVector: inout [Player]) -> Bool
                player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
                guard let player = player else { return false } //tirei o return daqui de dentro
                player.play()
+               
            } catch let error {
                print(error.localizedDescription)
            }
@@ -206,7 +209,10 @@ func noite(_ playersVector: inout [Player]) -> Bool
     print("The player \(playersVector[eliminatedPlayer - 1].nome) has been eliminated of the game!!")
     playersVector.remove(at: eliminatedPlayer - 1) //Como limpar a posição do vetor
     showPlayers(playersVector)
+    
+    var a = readLine()
     return verifyGame(playersVector)
+    
     //return playersVector
 }
 

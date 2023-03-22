@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E72A92C229CB7BFF006A6AA3 /* risk-136788.mp3 in Headers */ = {isa = PBXBuildFile; fileRef = E72A92C029CB7BED006A6AA3 /* risk-136788.mp3 */; settings = {ATTRIBUTES = (Public, ); }; };
+		E72A92C429CB7CF2006A6AA3 /* inspiring-cinematic-ambient-116199.mp3 in Headers */ = {isa = PBXBuildFile; fileRef = E72A92C329CB7CDB006A6AA3 /* inspiring-cinematic-ambient-116199.mp3 */; settings = {ATTRIBUTES = (Public, ); }; };
 		E7647B4F29CA3EEE00C5BC66 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7647B4E29CA3EEE00C5BC66 /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -23,8 +25,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		CCA9E44529CB785900542731 /* risk-136788.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "risk-136788.mp3"; path = "../../../Downloads/risk-136788.mp3"; sourceTree = "<group>"; };
-		CCA9E44629CB786300542731 /* inspiring-cinematic-ambient-116199.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "inspiring-cinematic-ambient-116199.mp3"; path = "../../../Downloads/inspiring-cinematic-ambient-116199.mp3"; sourceTree = "<group>"; };
+		E72A92C029CB7BED006A6AA3 /* risk-136788.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "risk-136788.mp3"; sourceTree = "<group>"; };
+		E72A92C329CB7CDB006A6AA3 /* inspiring-cinematic-ambient-116199.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "inspiring-cinematic-ambient-116199.mp3"; sourceTree = "<group>"; };
 		E7647B4B29CA3EEE00C5BC66 /* VilaOficial */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VilaOficial; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7647B4E29CA3EEE00C5BC66 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -60,19 +62,32 @@
 			isa = PBXGroup;
 			children = (
 				E7647B4E29CA3EEE00C5BC66 /* main.swift */,
-				CCA9E44529CB785900542731 /* risk-136788.mp3 */,
-				CCA9E44629CB786300542731 /* inspiring-cinematic-ambient-116199.mp3 */,
+				E72A92C029CB7BED006A6AA3 /* risk-136788.mp3 */,
+				E72A92C329CB7CDB006A6AA3 /* inspiring-cinematic-ambient-116199.mp3 */,
 			);
 			path = VilaOficial;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		E72A92C129CB7BF9006A6AA3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E72A92C229CB7BFF006A6AA3 /* risk-136788.mp3 in Headers */,
+				E72A92C429CB7CF2006A6AA3 /* inspiring-cinematic-ambient-116199.mp3 in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		E7647B4A29CA3EEE00C5BC66 /* VilaOficial */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E7647B5229CA3EEE00C5BC66 /* Build configuration list for PBXNativeTarget "VilaOficial" */;
 			buildPhases = (
+				E72A92C129CB7BF9006A6AA3 /* Headers */,
 				E7647B4729CA3EEE00C5BC66 /* Sources */,
 				E7647B4829CA3EEE00C5BC66 /* Frameworks */,
 				E7647B4929CA3EEE00C5BC66 /* CopyFiles */,
