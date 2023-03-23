@@ -58,8 +58,12 @@ func dia(_ playersVector: inout [Player]) -> Bool{
     
     guard let eliminatedPlayer = Int(readLine() ?? "0")  else {
         print("Invalid Character")
-        return false
-    }
+        return false//playersVector
+        }
+        
+        if eliminatedPlayer == 0 {
+            return true //retorna já pro while pra ir pro próximo round
+        }
     
     if (eliminatedPlayer == 0){
         print("\nNo person died during the day!")
