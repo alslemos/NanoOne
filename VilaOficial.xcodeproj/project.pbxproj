@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E72A92C229CB7BFF006A6AA3 /* risk-136788.mp3 in Headers */ = {isa = PBXBuildFile; fileRef = E72A92C029CB7BED006A6AA3 /* risk-136788.mp3 */; settings = {ATTRIBUTES = (Public, ); }; };
 		E72A92C429CB7CF2006A6AA3 /* inspiring-cinematic-ambient-116199.mp3 in Headers */ = {isa = PBXBuildFile; fileRef = E72A92C329CB7CDB006A6AA3 /* inspiring-cinematic-ambient-116199.mp3 */; settings = {ATTRIBUTES = (Public, ); }; };
+		E72A92C629CBDB14006A6AA3 /* success-fanfare-trumpets-6185.mp3 in Headers */ = {isa = PBXBuildFile; fileRef = E72A92C529CBDAFD006A6AA3 /* success-fanfare-trumpets-6185.mp3 */; settings = {ATTRIBUTES = (Public, ); }; };
 		E7647B4F29CA3EEE00C5BC66 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7647B4E29CA3EEE00C5BC66 /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,7 @@
 /* Begin PBXFileReference section */
 		E72A92C029CB7BED006A6AA3 /* risk-136788.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "risk-136788.mp3"; sourceTree = "<group>"; };
 		E72A92C329CB7CDB006A6AA3 /* inspiring-cinematic-ambient-116199.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "inspiring-cinematic-ambient-116199.mp3"; sourceTree = "<group>"; };
+		E72A92C529CBDAFD006A6AA3 /* success-fanfare-trumpets-6185.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "success-fanfare-trumpets-6185.mp3"; sourceTree = "<group>"; };
 		E7647B4B29CA3EEE00C5BC66 /* VilaOficial */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VilaOficial; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7647B4E29CA3EEE00C5BC66 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -64,6 +66,7 @@
 				E7647B4E29CA3EEE00C5BC66 /* main.swift */,
 				E72A92C029CB7BED006A6AA3 /* risk-136788.mp3 */,
 				E72A92C329CB7CDB006A6AA3 /* inspiring-cinematic-ambient-116199.mp3 */,
+				E72A92C529CBDAFD006A6AA3 /* success-fanfare-trumpets-6185.mp3 */,
 			);
 			path = VilaOficial;
 			sourceTree = "<group>";
@@ -76,6 +79,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E72A92C229CB7BFF006A6AA3 /* risk-136788.mp3 in Headers */,
+				E72A92C629CBDB14006A6AA3 /* success-fanfare-trumpets-6185.mp3 in Headers */,
 				E72A92C429CB7CF2006A6AA3 /* inspiring-cinematic-ambient-116199.mp3 in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
