@@ -9,6 +9,7 @@ var i: Int = 0
 
 var player: AVAudioPlayer? // para tocar os audios
 var playersVector: [Player] = [] // vetor para inserir todos os jogadores
+var vetorMensagem: [String] = [] // vetor para todas as mensagens
 
 enum ErrosJogo: Error{
     case InvalidAmountOfPlayers, InvalidNumberOfPlayerLessThanTwo, InvalidNumberOfEnemyesLessThanOne, MoreWolves
@@ -35,7 +36,13 @@ func escolhe(playersvector: [Player]) -> Int {
 func showPlayers(_ playersvector: [Player]){
     print("\nPlayers left:")
     for index in 0..<playersvector.count{
+        
         print("Number: \(index + 1)\tName: \(playersvector[index].nome)\tFunction: \(playersvector[index].player?.description ?? "")")
+        
+        var jogadorTxt = "Number: \(index + 1)\tName: \(playersvector[index].nome)\tFunction: \(playersvector[index].player?.description ?? "")\n"
+        
+        vetorMensagem.append(jogadorTxt)
+        
     }
 }
 
@@ -67,10 +74,20 @@ func dia(_ playersVector: inout [Player]) -> Bool{
     
     if (eliminatedPlayer == 0){
         print("\nNo person died during the day!")
+       
+        var elim3 = "\n\nNo person died during the day!"
+        
+        vetorMensagem.append(elim3)
         showPlayers(playersVector)
+        
     }
     else {
         print("\nThe player \(playersVector[eliminatedPlayer - 1].nome) has been eliminated 💀 of the game!!\n")
+    
+        var elimTxt = "\n\nThe player \(playersVector[eliminatedPlayer - 1].nome) has been eliminated 💀 of the game!!\n"
+        vetorMensagem.append(elimTxt)
+        
+        
         playersVector.remove(at: eliminatedPlayer - 1)
         showPlayers(playersVector)
     }
@@ -101,6 +118,13 @@ func noite(_ playersVector: inout [Player]) -> Bool{
         return false
     }
     print("\nThe player \(playersVector[eliminatedPlayer - 1].nome) has been eliminated 💀 of the game!!\n")
+    
+    var elimTxt2 = "\n The player \(playersVector[eliminatedPlayer - 1].nome) has been eliminated 💀 of the game!!\n"
+    vetorMensagem.append(elimTxt2)
+    
+    showPlayers(playersVector)
+    
+    
     playersVector.remove(at: eliminatedPlayer - 1)
     showPlayers(playersVector)
     
@@ -128,6 +152,25 @@ func showWinner(_ playersvector: [Player]){
     else {
         print("FARMERS WON YAAAAYYYYY 👩‍🌾👩‍🌾👩‍🌾👩‍🌾")
     }
+    
+    func getDocumentsDirectory() -> URL {
+       let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+       return paths[0]
+       }
+
+       let fileName = getDocumentsDirectory().appendingPathComponent("relatorioF2.txt")
+       //como escrever algo no txt mais de uma coisa???
+       do {
+           for index in 0..<vetorMensagem.count{
+               //try vetorMensagem[index].write(to: fileName, atomically: false, encoding: String.Encoding.utf8)
+               try vetorMensagem[index].appendToURL(fileURL: fileName)
+           }
+           
+       }catch{
+       print("eh, deu ruim")
+       }
+
+    
     
     Thread.sleep(forTimeInterval: 1)
     
@@ -184,6 +227,7 @@ func intro(){
 
 """
     print(nameOfGame)
+    vetorMensagem.append(nameOfGame)
     startGame()
 }
 
@@ -261,10 +305,16 @@ func startGame() {
     showPlayers(playersVector) // funcao que mostra os jogadores
     var turn: Int = 1
     print("       \n\n   =========== TURN \(turn) =========== ")
+    var turnTxt = "       \n\n   =========== TURN \(turn) =========== \n\n"
+    
+    vetorMensagem.append(turnTxt)
     
     while noite(&playersVector) && dia(&playersVector){
         turn += 1
         print("       \n\n   =========== TURN \(turn) =========== ")
+        var turnTxt2 = "       \n\n   =========== TURN \(turn) =========== \n\n"
+        vetorMensagem.append(turnTxt2)
+        
     }
     showWinner(playersVector)
 }
@@ -290,3 +340,31 @@ func verifyGame(_ playersvector: [Player]) -> Bool{
     
 }
 intro()
+
+
+
+extension String {
+    func appendLineToURL(fileURL: URL) throws {
+         try (self + "\n").appendToURL(fileURL: fileURL)
+     }
+
+     func appendToURL(fileURL: URL) throws {
+         let data = self.data(using: String.Encoding.utf8)!
+         try data.append(fileURL: fileURL)
+     }
+ }
+
+ extension Data {
+     func append(fileURL: URL) throws {
+         if let fileHandle = FileHandle(forWritingAtPath: fileURL.path) {
+             defer {
+                 fileHandle.closeFile()
+             }
+             fileHandle.seekToEndOfFile()
+             fileHandle.write(self)
+         }
+         else {
+             try write(to: fileURL, options: .atomic)
+         }
+     }
+ }
