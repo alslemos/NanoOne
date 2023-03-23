@@ -10,6 +10,9 @@ var i: Int = 0
 var player: AVAudioPlayer? // para tocar os audios
 var playersVector: [Player] = [] // vetor para inserir todos os jogadores
 
+enum ErrosJogo: Error{
+    case InvalidAmountOfPlayers, InvalidNumberOfPlayerLessThanTwo, InvalidNumberOfEnemyesLessThanOne, MoreWolves
+}
 
 //função que randomicamente escolhe o que cada personagem vai ser
 func escolhe(playersvector: [Player]) -> Int {
@@ -30,6 +33,7 @@ func escolhe(playersvector: [Player]) -> Int {
 
 // mostra os jogadores
 func showPlayers(_ playersvector: [Player]){
+    print("\nPlayers left:")
     for index in 0..<playersvector.count{
         print("Number: \(index + 1)\tName: \(playersvector[index].nome)\tFunction: \(playersvector[index].player?.description ?? "")")
     }
@@ -38,10 +42,10 @@ func showPlayers(_ playersvector: [Player]){
 
 // funcao dia
 func dia(_ playersVector: inout [Player]) -> Bool{
-    guard let url = Bundle.main.url(forResource: "inspiring-cinematic-ambient-116199", withExtension: "mp3") else { return true } //tirei o return daqui de dentro
+    guard let url = Bundle.main.url(forResource: "inspiring-cinematic-ambient-116199", withExtension: "mp3") else { return true }
     do {
         player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
-        guard let player = player else { return false } //tirei o return daqui de dentro
+        guard let player = player else { return false }
         player.play()
     } catch let error {
         print(error.localizedDescription)
@@ -49,17 +53,23 @@ func dia(_ playersVector: inout [Player]) -> Bool{
     
     print("\n\n☁️☀️☁️☀️☁️☀️☁️☀️☁️☀️☁️☀️☁️☀️☁️☀️☁️☀️")
     print("UHHHHHH GRAÇAS AO BOM GOD O DIA CHEGOU")
-    print("Now, the players will vote to eliminate a player:")
-    print("Which player received the most votes to be eliminated?")
+    print("Now, the players will vote to eliminate a player. Which player received the most votes to be eliminated?")
+    print("(Press 0 to not kill anyone)")
     
     guard let eliminatedPlayer = Int(readLine() ?? "0")  else {
         print("Invalid Character")
         return false
     }
     
-    print("The player \(playersVector[eliminatedPlayer - 1].nome) has been eliminated 💀 of the game!!\n")
-    playersVector.remove(at: eliminatedPlayer - 1)
-    showPlayers(playersVector)
+    if (eliminatedPlayer == 0){
+        print("\nNo person died during the day!")
+        showPlayers(playersVector)
+    }
+    else {
+        print("\nThe player \(playersVector[eliminatedPlayer - 1].nome) has been eliminated 💀 of the game!!\n")
+        playersVector.remove(at: eliminatedPlayer - 1)
+        showPlayers(playersVector)
+    }
     
     Thread.sleep(forTimeInterval: 1)
     return verifyGame(playersVector)
@@ -80,15 +90,13 @@ func noite(_ playersVector: inout [Player]) -> Bool{
     
     print("\n\n☁️🌙☁️🌙☁️🌙☁️🌙☁️🌙☁️🌙☁️🌙☁️🌙☁️")
     print("UHHHHHH A NOITE CHEGOU, CORRAAAAAAA!")
-    print("Now, the wolves will choose who they kill:")
-    print("Which player did the wolves decide to kill?")
+    print("Now, the wolves will choose who they kill. Which player did the wolves choose?")
 
     guard let eliminatedPlayer = Int(readLine() ?? "0")  else {
         print("Invalid Character")
         return false
     }
-
-    print("The player \(playersVector[eliminatedPlayer - 1].nome) has been eliminated 💀 of the game!!\n")
+    print("\nThe player \(playersVector[eliminatedPlayer - 1].nome) has been eliminated 💀 of the game!!\n")
     playersVector.remove(at: eliminatedPlayer - 1)
     showPlayers(playersVector)
     
@@ -134,9 +142,6 @@ struct Player{
 enum PlayerDescription{
     case wolf
     case farmer
-    //case magician
-    //case Diretor
-    //case Assistente
     
     var description: String{
         switch self {
@@ -144,8 +149,6 @@ enum PlayerDescription{
             return "🐺"
         case .farmer:
             return "👩‍🌾"
-        default:
-            print("Opção Default!")
         }
     }
 }
@@ -153,7 +156,7 @@ enum PlayerDescription{
 
 // primeira tela
 func intro(){
-    let a: String =  """
+    let nameOfGame: String =  """
 
   🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺
  VVVVVVVV           VVVVVVVV  iiii  lllllll
@@ -176,56 +179,89 @@ func intro(){
   🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺
 
 """
-    //chama a funcao principal para comecar o jogo
-    comecaJogo()
+    print(nameOfGame)
+    startGame()
+}
+
+func readPlayers() throws -> Int {
+    guard let players = Int(readLine() ?? "0")  else {
+        print("\n⚠️The number entered is invalid. Only number is accept in this part. Please, try again!⚠️")
+        throw ErrosJogo.InvalidAmountOfPlayers
+    }
+    
+    if players < 2 {
+        print("\n⚠️The number of people to participate in the game must be at least TWO!! Please, try again!⚠️")
+        throw ErrosJogo.InvalidNumberOfPlayerLessThanTwo
+    }
+    
+    return players
+}
+
+func readEnimies(_ players: Int) throws -> Int {
+    print("\nHow many enemies will we have for this campaign? (We recommend 1 to 3)")
+    guard let enemies = Int(readLine() ?? "0")  else {
+        print("\n⚠️The number entered is invalid. Only number is accept in this part. Please, try again!⚠️")
+        throw ErrosJogo.InvalidAmountOfPlayers
+    }
+    
+    if enemies < 1{
+        print("\n⚠️The number of wolves must be at least ONE!! Please, try again!⚠️")
+        throw ErrosJogo.InvalidNumberOfEnemyesLessThanOne
+    }
+        
+    if enemies >= players{
+        print("\n⚠️The number of wolves must be less than the number of farmers!! Please, try again!⚠️")
+        throw ErrosJogo.MoreWolves
+    }
+    
+    return enemies
 }
 
 // funcao geral que visa ser o main
-func comecaJogo(){
+func startGame() {
+    var players: Int? = nil
+    var enemies: Int? = nil
+    
     print("Tell us the name of the host, please:")
     
-    if let masterName = readLine() {
+    if let masterName = readLine(){
         print("\nHello, \(masterName), you will be the master. How many players will we have for this campaign (From 3 to 9)? ")
     }
     
-    guard let players = Int(readLine() ?? "0")  else {
-        print("nao rolou")
-        return
+    while (players == nil) {
+        players = try? readPlayers()
     }
-    print("We will have \(players) then, thank you")
-    
-    print("How many enemies will we have for this campaign? (We recommend 1 to 3)")
-    guard let enemies = Int(readLine() ?? "0")  else {
-        print("nao rolou inimigo")
-        return
+    print("\nWe will have \(players ?? 0) farmers then, thank you!")
+
+    while(enemies == nil) {
+        enemies = try? readEnimies(players ?? 0)
     }
-    print("We will have \(enemies) then, thank you")
+    print("\nWe will have \(enemies ?? 0) wolves then, thank you!")
         
-    for i in 1...players{
+    for i in 1...players!{
         
-        var auxRand = Float.random(in: 1..<100)
+        let auxRand = Float.random(in: 1..<100)
         
         print("\nPlayer \(i) name: ")
         
-        var a: Player = Player(nome: readLine() ?? "Empty", rand: auxRand, player: .farmer)
-        
-        playersVector.append(a)
-
+        let player: Player = Player(nome: readLine() ?? "Empty", rand: auxRand, player: .farmer)
+        playersVector.append(player)
     }
     
     // Atribui aleatóriamente os inimigos para os jogadores
-    for _ in 1...enemies{
-        var villainIndex: Int = escolhe(playersvector: playersVector)
+    for _ in 1...(enemies ?? 0){
+        let villainIndex: Int = escolhe(playersvector: playersVector)
         playersVector[villainIndex].player = .wolf
-
     }
     
     showPlayers(playersVector) // funcao que mostra os jogadores
+    var turn: Int = 1
+    print("       \n\n   =========== TURN \(turn) =========== ")
     
     while noite(&playersVector) && dia(&playersVector){
-        print("OUTRO TURNO")
+        turn += 1
+        print("       \n\n   =========== TURN \(turn) =========== ")
     }
-    print("O JOGO ACABOU")
     showWinner(playersVector)
 }
 
@@ -249,6 +285,4 @@ func verifyGame(_ playersvector: [Player]) -> Bool{
     }
     
 }
-
-// chamada da funcao intro (nosso main)
 intro()
