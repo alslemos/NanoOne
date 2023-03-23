@@ -11,6 +11,32 @@ var player: AVAudioPlayer? // para tocar os audios
 var playersVector: [Player] = [] // vetor para inserir todos os jogadores
 var vetorMensagem: [String] = [] // vetor para todas as mensagens
 
+extension String {
+    func appendLineToURL(fileURL: URL) throws {
+         try (self + "\n").appendToURL(fileURL: fileURL)
+     }
+
+     func appendToURL(fileURL: URL) throws {
+         let data = self.data(using: String.Encoding.utf8)!
+         try data.append(fileURL: fileURL)
+     }
+ }
+
+ extension Data {
+     func append(fileURL: URL) throws {
+         if let fileHandle = FileHandle(forWritingAtPath: fileURL.path) {
+             defer {
+                 fileHandle.closeFile()
+             }
+             fileHandle.seekToEndOfFile()
+             fileHandle.write(self)
+         }
+         else {
+             try write(to: fileURL, options: .atomic)
+         }
+     }
+ }
+
 enum ErrosJogo: Error{
     case InvalidAmountOfPlayers, InvalidNumberOfPlayerLessThanTwo, InvalidNumberOfEnemyesLessThanOne, MoreWolves
 }
@@ -49,6 +75,8 @@ func showPlayers(_ playersvector: [Player]){
 
 // funcao dia
 func dia(_ playersVector: inout [Player]) -> Bool{
+    //The function dia, being the second part of the round, also returns a bool. It contains the soundtrack for the day, the elimination of the character the Farmers decided to choose and appends another string to the report that will be finished at the showWinnner function
+    //day music
     guard let url = Bundle.main.url(forResource: "inspiring-cinematic-ambient-116199", withExtension: "mp3") else { return true }
     do {
         player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
@@ -58,9 +86,10 @@ func dia(_ playersVector: inout [Player]) -> Bool{
         print(error.localizedDescription)
     }
     
+    //interface for the Host
     print("\n\n☁️☀️☁️☀️☁️☀️☁️☀️☁️☀️☁️☀️☁️☀️☁️☀️☁️☀️")
-    print("UHHHHHH GRAÇAS AO BOM GOD O DIA CHEGOU")
-    print("Now, the players will vote to eliminate a player. Which player received the most votes to be eliminated?")
+    print("UUUHHHUUUUULLL THE DAY HAS FINALLY ARRIVED!!")
+    print("Now, the players will vote to eliminate a player. Which player (number) received the most votes to be eliminated?")
     print("(Press 0 to not kill anyone)")
     
     guard let eliminatedPlayer = Int(readLine() ?? "0")  else {
@@ -98,6 +127,9 @@ func dia(_ playersVector: inout [Player]) -> Bool{
 
 // funcao noite
 func noite(_ playersVector: inout [Player]) -> Bool{
+    //a função noite é o primeiro dos turnos, contendo uma música, a escolha de quem o lobo vai matar e a eliminação
+    //de um dos jogadores
+    
     //  Musica da noite
     guard let url = Bundle.main.url(forResource: "risk-136788", withExtension: "mp3") else { return true}
     do {
@@ -109,10 +141,12 @@ func noite(_ playersVector: inout [Player]) -> Bool{
         print(error.localizedDescription)
     }
     
+    //Interface no terminal
     print("\n\n☁️🌙☁️🌙☁️🌙☁️🌙☁️🌙☁️🌙☁️🌙☁️🌙☁️")
-    print("UHHHHHH A NOITE CHEGOU, CORRAAAAAAA!")
-    print("Now, the wolves will choose who they kill. Which player did the wolves choose?")
+    print("UHHHHHH THE NIGHT HAS ARRIVED, RUN FOR YOUR LIFE!")
+    print("Now, the wolves will choose who they kill. Which player (number) did the wolves choose?")
 
+    //readline para pegar o número do jogador que o lobisomem escolheu
     guard let eliminatedPlayer = Int(readLine() ?? "0")  else {
         print("Invalid Character")
         return false
@@ -121,9 +155,6 @@ func noite(_ playersVector: inout [Player]) -> Bool{
     
     var elimTxt2 = "\n The player \(playersVector[eliminatedPlayer - 1].nome) has been eliminated 💀 of the game!!\n"
     vetorMensagem.append(elimTxt2)
-    
-    showPlayers(playersVector)
-    
     
     playersVector.remove(at: eliminatedPlayer - 1)
     showPlayers(playersVector)
@@ -137,13 +168,13 @@ func noite(_ playersVector: inout [Player]) -> Bool{
 func showWinner(_ playersvector: [Player]){
     
     guard let url = Bundle.main.url(forResource: "success-fanfare-trumpets-6185", withExtension: "mp3") else { return }
-           do {
-               player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
-               guard let player = player else { return  }
-               player.play()
-           } catch let error {
-               print(error.localizedDescription)
-           }
+    do {
+        player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+        guard let player = player else { return  }
+        player.play()
+    } catch let error {
+        print(error.localizedDescription)
+    }
     
     
     if playersvector[0].player == .wolf{
@@ -154,26 +185,25 @@ func showWinner(_ playersvector: [Player]){
     }
     
     func getDocumentsDirectory() -> URL {
-       let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-       return paths[0]
-       }
-
-       let fileName = getDocumentsDirectory().appendingPathComponent("relatorioF2.txt")
-       //como escrever algo no txt mais de uma coisa???
-       do {
-           for index in 0..<vetorMensagem.count{
-               //try vetorMensagem[index].write(to: fileName, atomically: false, encoding: String.Encoding.utf8)
-               try vetorMensagem[index].appendToURL(fileURL: fileName)
-           }
-           
-       }catch{
-       print("eh, deu ruim")
-       }
-
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+    
+    let fileName = getDocumentsDirectory().appendingPathComponent("relatorioF2.txt")
+    //como escrever algo no txt mais de uma coisa???
+    do {
+        for index in 0..<vetorMensagem.count{
+            //try vetorMensagem[index].write(to: fileName, atomically: false, encoding: String.Encoding.utf8)
+            try vetorMensagem[index].appendToURL(fileURL: fileName)
+        }
+        
+    }catch{
+        print("eh, deu ruim")
+    }
+    
     
     
     Thread.sleep(forTimeInterval: 1)
-    
 }
 
 
@@ -265,6 +295,28 @@ func readEnimies(_ players: Int) throws -> Int {
     return enemies
 }
 
+
+// verifica se o jogo ainda pode rolar
+func verifyGame(_ playersvector: [Player]) -> Bool{
+    var qntwolf: Int = 0
+    var qntfarmer: Int = 0
+    for player in playersvector {
+        if player.player == .farmer{
+            qntfarmer += 1
+        }
+        else if player.player == .wolf{
+            qntwolf += 1
+        }
+    }
+    if qntwolf == 0 || qntfarmer == 0 {
+        return false
+    }
+    else {
+        return true
+    }
+    
+}
+
 // funcao geral que visa ser o main
 func startGame() {
     var players: Int? = nil
@@ -273,7 +325,7 @@ func startGame() {
     print("Tell us the name of the host, please:")
     
     if let masterName = readLine(){
-        print("\nHello, \(masterName), you will be the master. How many players will we have for this campaign (From 3 to 9)? ")
+        print("\nHello, \(masterName), you will be the Host. How many players will we have for this campaign (From 3 to 9)? ")
     }
     
     while (players == nil) {
@@ -319,52 +371,7 @@ func startGame() {
     showWinner(playersVector)
 }
 
-// verifica se o jogo ainda pode rolar
-func verifyGame(_ playersvector: [Player]) -> Bool{
-    var qntwolf: Int = 0
-    var qntfarmer: Int = 0
-    for player in playersvector {
-        if player.player == .farmer{
-            qntfarmer += 1
-        }
-        else if player.player == .wolf{
-            qntwolf += 1
-        }
-    }
-    if qntwolf == 0 || qntfarmer == 0 {
-        return false
-    }
-    else {
-        return true
-    }
-    
-}
+
 intro()
 
 
-
-extension String {
-    func appendLineToURL(fileURL: URL) throws {
-         try (self + "\n").appendToURL(fileURL: fileURL)
-     }
-
-     func appendToURL(fileURL: URL) throws {
-         let data = self.data(using: String.Encoding.utf8)!
-         try data.append(fileURL: fileURL)
-     }
- }
-
- extension Data {
-     func append(fileURL: URL) throws {
-         if let fileHandle = FileHandle(forWritingAtPath: fileURL.path) {
-             defer {
-                 fileHandle.closeFile()
-             }
-             fileHandle.seekToEndOfFile()
-             fileHandle.write(self)
-         }
-         else {
-             try write(to: fileURL, options: .atomic)
-         }
-     }
- }
