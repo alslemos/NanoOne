@@ -15,12 +15,15 @@ var playersVector: [Player] = [] // vetor para inserir todos os jogadores
 func escolhe(playersvector: [Player]) -> Int {
     var amountPlayers: Int = 0
     var choice: Int = 0
+    
     for _ in playersvector{
-    amountPlayers += 1
+        amountPlayers += 1
     }
+    
     repeat {
        choice = Int.random(in: 0..<amountPlayers)
-    }while playersvector[choice].player == .enemye
+    } while playersvector[choice].player == .wolf
+    
     print(choice)
     return choice
 }
@@ -36,63 +39,59 @@ func showPlayers(_ playersvector: [Player]){
 // funcao dia
 func dia(_ playersVector: inout [Player]) -> Bool{
     guard let url = Bundle.main.url(forResource: "inspiring-cinematic-ambient-116199", withExtension: "mp3") else { return true } //tirei o return daqui de dentro
-           do {
-               player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
-               guard let player = player else { return false } //tirei o return daqui de dentro
-               player.play()
-           } catch let error {
-               print(error.localizedDescription)
-           }
-    //var b = readLine()// nao mata a musica
+    do {
+        player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+        guard let player = player else { return false } //tirei o return daqui de dentro
+        player.play()
+    } catch let error {
+        print(error.localizedDescription)
+    }
     
     print("\n\n☁️☀️☁️☀️☁️☀️☁️☀️☁️☀️☁️☀️☁️☀️☁️☀️☁️☀️")
     print("UHHHHHH GRAÇAS AO BOM GOD O DIA CHEGOU")
     print("Now, the players will vote to eliminate a player:")
     print("Which player received the most votes to be eliminated?")
     
-    guard let eliminatedPlayer = Int(readLine() ?? "0")  else {  // unwrapping
+    guard let eliminatedPlayer = Int(readLine() ?? "0")  else {
         print("Invalid Character")
-        return false//playersVector
+        return false
     }
     
     print("The player \(playersVector[eliminatedPlayer - 1].nome) has been eliminated 💀 of the game!!\n")
-    playersVector.remove(at: eliminatedPlayer - 1)//Como limpar a posição do vetor
+    playersVector.remove(at: eliminatedPlayer - 1)
     showPlayers(playersVector)
-    //return real oficial
-    //    var a = readLine()
+    
     Thread.sleep(forTimeInterval: 1)
     return verifyGame(playersVector)
-    //return playersVector
 }
 
 // funcao noite
 func noite(_ playersVector: inout [Player]) -> Bool{
     //  Musica da noite
-           guard let url = Bundle.main.url(forResource: "risk-136788", withExtension: "mp3") else { return true} //tirei o return daqui de dentro
-           do {
-               player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
-               guard let player = player else { return false } //tirei o return daqui de dentro
-               player.play()
+    guard let url = Bundle.main.url(forResource: "risk-136788", withExtension: "mp3") else { return true}
+    do {
+        player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+        guard let player = player else { return false }
+        player.play()
                
-           } catch let error {
-               print(error.localizedDescription)
-           }
+    } catch let error {
+        print(error.localizedDescription)
+    }
     
     print("\n\n☁️🌙☁️🌙☁️🌙☁️🌙☁️🌙☁️🌙☁️🌙☁️🌙☁️")
     print("UHHHHHH A NOITE CHEGOU, CORRAAAAAAA!")
     print("Now, the wolves will choose who they kill:")
     print("Which player did the wolves decide to kill?")
 
-    guard let eliminatedPlayer = Int(readLine() ?? "0")  else {  // unwrapping
+    guard let eliminatedPlayer = Int(readLine() ?? "0")  else {
         print("Invalid Character")
-        return false//playersVector
+        return false
     }
 
     print("The player \(playersVector[eliminatedPlayer - 1].nome) has been eliminated 💀 of the game!!\n")
-    playersVector.remove(at: eliminatedPlayer - 1) //Como limpar a posição do vetor
+    playersVector.remove(at: eliminatedPlayer - 1)
     showPlayers(playersVector)
     
-    // trocando readLine()
     Thread.sleep(forTimeInterval: 1)
     return verifyGame(playersVector)
 }
@@ -101,17 +100,17 @@ func noite(_ playersVector: inout [Player]) -> Bool{
 // mostra o vencedor
 func showWinner(_ playersvector: [Player]){
     
-    guard let url = Bundle.main.url(forResource: "success-fanfare-trumpets-6185", withExtension: "mp3") else { return  } //tirei o return daqui de dentro
+    guard let url = Bundle.main.url(forResource: "success-fanfare-trumpets-6185", withExtension: "mp3") else { return }
            do {
                player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
-               guard let player = player else { return  } //tirei o return daqui de dentro
+               guard let player = player else { return  }
                player.play()
            } catch let error {
                print(error.localizedDescription)
            }
     
     
-    if playersvector[0].player == .enemye{
+    if playersvector[0].player == .wolf{
         print("WEREWOLFS WON WAUAHAHAHAHAHA 🐺🐺🐺🐺")
     }
     else {
@@ -127,13 +126,13 @@ func showWinner(_ playersvector: [Player]){
 struct Player{
     var nome: String = ""
     var rand: Float = 0.0
-    var player: PlayerDescription? // como eles começam o jogo sem, pode ser interessante!
+    var player: PlayerDescription?
     
 }
 
 // estrutura enum para alocacação de função
 enum PlayerDescription{
-    case enemye
+    case wolf
     case farmer
     //case magician
     //case Diretor
@@ -141,7 +140,7 @@ enum PlayerDescription{
     
     var description: String{
         switch self {
-        case .enemye:
+        case .wolf:
             return "🐺"
         case .farmer:
             return "👩‍🌾"
@@ -177,75 +176,57 @@ func intro(){
   🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺 👩‍🌾 🐺
 
 """
-    print(a)
-    carrega() // chamando o equivalente a funcão main
+    //chama a funcao principal para comecar o jogo
+    comecaJogo()
 }
 
 // funcao geral que visa ser o main
-func carrega() -> Int{
+func comecaJogo(){
     print("Tell us the name of the host, please:")
     
     if let masterName = readLine() {
         print("\nHello, \(masterName), you will be the master. How many players will we have for this campaign (From 3 to 9)? ")
     }
     
-    guard let players = Int(readLine() ?? "0")  else {  // unwrapping
+    guard let players = Int(readLine() ?? "0")  else {
         print("nao rolou")
-        return 0
+        return
     }
     print("We will have \(players) then, thank you")
     
     print("How many enemies will we have for this campaign? (We recommend 1 to 3)")
-    guard let enemies = Int(readLine() ?? "0")  else {  // unwrapping
+    guard let enemies = Int(readLine() ?? "0")  else {
         print("nao rolou inimigo")
-        return 0
+        return
     }
     print("We will have \(enemies) then, thank you")
         
     for i in 1...players{
         
-        var auxRand = Float.random(in: 1..<100) // pq esse underline?
-        // print(auxRand)  Já sabemos que funciona
+        var auxRand = Float.random(in: 1..<100)
         
-        print("\nPlayer \(i) name: ") // coerente
+        print("\nPlayer \(i) name: ")
         
-        var a: Player = Player(nome: readLine() ?? "Empty", rand: auxRand, player: .farmer) // mui
+        var a: Player = Player(nome: readLine() ?? "Empty", rand: auxRand, player: .farmer)
         
         playersVector.append(a)
 
     }
     
-    //parte de testes da raquel
+    // Atribui aleatóriamente os inimigos para os jogadores
     for _ in 1...enemies{
         var villainIndex: Int = escolhe(playersvector: playersVector)
-        playersVector[villainIndex].player = .enemye
+        playersVector[villainIndex].player = .wolf
 
     }
     
-    //teste para ver se funcionou
-//    var j: Int = 0
-//    for _ in playersVector{
-//        print(playersVector[j].player)
-//        j += 1
-//    }
-    
     showPlayers(playersVector) // funcao que mostra os jogadores
     
-    //MARK: - contagem de quantas pessoas e quantos lobos
-    //a condição preisa refletir a qnt de jogadores e de lobos
-//    repeat{  // logica ainda nao esta coerente, mas coisa para amanhã
-//        noite(&playersVector)
-//        showPlayers(playersVector)
-//        dia(&playersVector)
-//        showPlayers(playersVector)
-//
-//    }while contplayers(playersVector)
     while noite(&playersVector) && dia(&playersVector){
         print("OUTRO TURNO")
     }
     print("O JOGO ACABOU")
     showWinner(playersVector)
-    return 5 // pq 5? n sabemos
 }
 
 // verifica se o jogo ainda pode rolar
@@ -256,7 +237,7 @@ func verifyGame(_ playersvector: [Player]) -> Bool{
         if player.player == .farmer{
             qntfarmer += 1
         }
-        else if player.player == .enemye{
+        else if player.player == .wolf{
             qntwolf += 1
         }
     }
