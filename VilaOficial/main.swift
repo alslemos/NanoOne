@@ -51,11 +51,17 @@ func dia(_ playersVector: inout [Player]) -> Bool{
     print("UHHHHHH GRAÇAS AO BOM GOD O DIA CHEGOU")
     print("Now, the players will vote to eliminate a player:")
     print("Which player received the most votes to be eliminated?")
-    
-    guard let eliminatedPlayer = Int(readLine() ?? "0")  else {
+    print("If the players choose to not eliminate, choose 0.")
+        
+        
+    guard let eliminatedPlayer = Int(readLine() ?? "0")  else {  // unwrapping
         print("Invalid Character")
-        return false
-    }
+        return false//playersVector
+        }
+        
+        if eliminatedPlayer == 0 {
+            return true //retorna já pro while pra ir pro próximo round
+        }
     
     print("The player \(playersVector[eliminatedPlayer - 1].nome) has been eliminated 💀 of the game!!\n")
     playersVector.remove(at: eliminatedPlayer - 1)
@@ -82,11 +88,17 @@ func noite(_ playersVector: inout [Player]) -> Bool{
     print("UHHHHHH A NOITE CHEGOU, CORRAAAAAAA!")
     print("Now, the wolves will choose who they kill:")
     print("Which player did the wolves decide to kill?")
+    print("If the wolfs decide to not kill anyone, choose 0.")
 
-    guard let eliminatedPlayer = Int(readLine() ?? "0")  else {
-        print("Invalid Character")
-        return false
-    }
+        guard let eliminatedPlayer = Int(readLine() ?? "0")  else {  // unwrapping
+            print("Invalid Character")
+            return false//playersVector
+        }
+        
+        if eliminatedPlayer == 0 {
+            return true //retorna já pro while pra ir pro próximo round
+        }
+
 
     print("The player \(playersVector[eliminatedPlayer - 1].nome) has been eliminated 💀 of the game!!\n")
     playersVector.remove(at: eliminatedPlayer - 1)
@@ -177,6 +189,7 @@ func intro(){
 
 """
     //chama a funcao principal para comecar o jogo
+    print (a)
     comecaJogo()
 }
 
