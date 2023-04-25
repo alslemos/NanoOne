@@ -11,7 +11,7 @@ var player: AVAudioPlayer? // para tocar os audios
 var playersVector: [Player] = [] // vetor para inserir todos os jogadores
 var vetorMensagem: [String] = [] // vetor para todas as mensagens
 
-
+// teste versao 21:24
 //extensao insere conteúdo dentro do relatório .txt
 extension String {
     func appendLineToURL(fileURL: URL) throws {
